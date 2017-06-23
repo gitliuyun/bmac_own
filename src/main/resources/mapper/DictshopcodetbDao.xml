@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.DictshopcodetbDao">
+  <resultMap id="BaseResultMap" type="com.yingjun.ssm.entity.Dictshopcodetb">
+    <id column="dictshopcodetb_id" jdbcType="BIGINT" property="dictshopcodetbId" />
+    <result column="shopno" jdbcType="VARCHAR" property="shopno" />
+    <result column="shopname" jdbcType="VARCHAR" property="shopname" />
+    <result column="rsvd" jdbcType="VARCHAR" property="rsvd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dictshopcodetb_id, shopno, shopname, rsvd
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictshopcodetb
+    where dictshopcodetb_id = #{dictshopcodetbId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="queryExistShopNo" resultType="java.lang.String">
+  	select shopno from dictshopcodetb
+  </select>
+  
+  <select id="queryByCondition" parameterType="Map" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from dictshopcodetb where 1=1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dictshopcodetb
+    where dictshopcodetb_id = #{dictshopcodetbId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yingjun.ssm.entity.Dictshopcodetb">
+    insert into dictshopcodetb (dictshopcodetb_id, shopno, shopname, 
+      rsvd)
+    values (#{dictshopcodetbId,jdbcType=BIGINT}, #{shopno,jdbcType=VARCHAR}, #{shopname,jdbcType=VARCHAR}, 
+      #{rsvd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yingjun.ssm.entity.Dictshopcodetb">
+    insert into dictshopcodetb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictshopcodetbId != null">
+        dictshopcodetb_id,
+      </if>
+      <if test="shopno != null">
+        shopno,
+      </if>
+      <if test="shopname != null">
+        shopname,
+      </if>
+      <if test="rsvd != null">
+        rsvd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictshopcodetbId != null">
+        #{dictshopcodetbId,jdbcType=BIGINT},
+      </if>
+      <if test="shopno != null">
+        #{shopno,jdbcType=VARCHAR},
+      </if>
+      <if test="shopname != null">
+        #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yingjun.ssm.entity.Dictshopcodetb">
+    update dictshopcodetb
+    <set>
+      <if test="shopno != null">
+        shopno = #{shopno,jdbcType=VARCHAR},
+      </if>
+      <if test="shopname != null">
+        shopname = #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        rsvd = #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dictshopcodetb_id = #{dictshopcodetbId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yingjun.ssm.entity.Dictshopcodetb">
+    update dictshopcodetb
+    set shopno = #{shopno,jdbcType=VARCHAR},
+      shopname = #{shopname,jdbcType=VARCHAR},
+      rsvd = #{rsvd,jdbcType=VARCHAR}
+    where dictshopcodetb_id = #{dictshopcodetbId,jdbcType=BIGINT}
+  </update>
+</mapper>

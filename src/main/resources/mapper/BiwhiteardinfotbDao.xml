@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.BiwhiteardinfotbDao">
+  <resultMap id="BaseResultMap" type="com.yingjun.ssm.entity.Biwhiteardinfotb">
+    <id column="biwhitecardinfotb_id" jdbcType="BIGINT" property="biwhitecardinfotbId" />
+    <result column="cardno" jdbcType="VARCHAR" property="cardno" />
+    <result column="kktype" jdbcType="VARCHAR" property="kktype" />
+    <result column="unitcode" jdbcType="VARCHAR" property="unitcode" />
+    <result column="mobileno" jdbcType="VARCHAR" property="mobileno" />
+    <result column="productcompany" jdbcType="VARCHAR" property="productcompany" />
+    <result column="productmodel" jdbcType="VARCHAR" property="productmodel" />
+    <result column="rsvd" jdbcType="VARCHAR" property="rsvd" />
+  </resultMap>
+  
+  <sql id="Transation_Comp_List">
+    cardno, mobileno, productcompany, productmodel, 
+    rsvd
+  </sql>
+  
+  <sql id="Base_Column_List">
+    biwhitecardinfotb_id, cardno, kktype, unitcode, mobileno, productcompany, productmodel, 
+    rsvd
+  </sql>
+  
+  <select id="queryAllCardInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Transation_Comp_List" />
+    from biwhitecardinfotb
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biwhitecardinfotb
+    where biwhitecardinfotb_id = #{biwhitecardinfotbId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biwhitecardinfotb
+    where 1=1 limit 1000
+  </select>
+  
+  <select id="queryAllCardNo" resultType="java.lang.String">
+    select cardno from biwhitecardinfotb
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from biwhitecardinfotb
+    where biwhitecardinfotb_id = #{biwhitecardinfotbId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yingjun.ssm.entity.Biwhiteardinfotb">
+    insert into biwhitecardinfotb (biwhitecardinfotb_id, cardno, kktype, 
+      unitcode, mobileno, productcompany, 
+      productmodel, rsvd)
+    values (#{biwhitecardinfotbId,jdbcType=BIGINT}, #{cardno,jdbcType=VARCHAR}, #{kktype,jdbcType=VARCHAR}, 
+      #{unitcode,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, #{productcompany,jdbcType=VARCHAR}, 
+      #{productmodel,jdbcType=VARCHAR}, #{rsvd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yingjun.ssm.entity.Biwhiteardinfotb">
+    insert into biwhitecardinfotb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="biwhitecardinfotbId != null">
+        biwhitecardinfotb_id,
+      </if>
+      <if test="cardno != null">
+        cardno,
+      </if>
+      <if test="kktype != null">
+        kktype,
+      </if>
+      <if test="unitcode != null">
+        unitcode,
+      </if>
+      <if test="mobileno != null">
+        mobileno,
+      </if>
+      <if test="productcompany != null">
+        productcompany,
+      </if>
+      <if test="productmodel != null">
+        productmodel,
+      </if>
+      <if test="rsvd != null">
+        rsvd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="biwhitecardinfotbId != null">
+        #{biwhitecardinfotbId,jdbcType=BIGINT},
+      </if>
+      <if test="cardno != null">
+        #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="kktype != null">
+        #{kktype,jdbcType=VARCHAR},
+      </if>
+      <if test="unitcode != null">
+        #{unitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null">
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="productcompany != null">
+        #{productcompany,jdbcType=VARCHAR},
+      </if>
+      <if test="productmodel != null">
+        #{productmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yingjun.ssm.entity.Biwhiteardinfotb">
+    update biwhitecardinfotb
+    <set>
+      <if test="cardno != null">
+        cardno = #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="kktype != null">
+        kktype = #{kktype,jdbcType=VARCHAR},
+      </if>
+      <if test="unitcode != null">
+        unitcode = #{unitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null">
+        mobileno = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="productcompany != null">
+        productcompany = #{productcompany,jdbcType=VARCHAR},
+      </if>
+      <if test="productmodel != null">
+        productmodel = #{productmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        rsvd = #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where biwhitecardinfotb_id = #{biwhitecardinfotbId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yingjun.ssm.entity.Biwhiteardinfotb">
+    update biwhitecardinfotb
+    set cardno = #{cardno,jdbcType=VARCHAR},
+      kktype = #{kktype,jdbcType=VARCHAR},
+      unitcode = #{unitcode,jdbcType=VARCHAR},
+      mobileno = #{mobileno,jdbcType=VARCHAR},
+      productcompany = #{productcompany,jdbcType=VARCHAR},
+      productmodel = #{productmodel,jdbcType=VARCHAR},
+      rsvd = #{rsvd,jdbcType=VARCHAR}
+    where biwhitecardinfotb_id = #{biwhitecardinfotbId,jdbcType=BIGINT}
+  </update>
+</mapper>

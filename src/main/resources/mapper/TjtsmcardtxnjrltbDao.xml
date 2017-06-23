@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.TjtsmcardtxnjrltbDao">
+  <resultMap id="BaseResultMap" type="com.yingjun.ssm.entity.Tjtsmcardtxnjrltb">
+    <id column="tjtsmcardtxnjrltb_id" jdbcType="BIGINT" property="tjtsmcardtxnjrltbId" />
+    <result column="fileid" jdbcType="VARCHAR" property="fileid" />
+    <result column="fileno" jdbcType="VARCHAR" property="fileno" />
+    <result column="unitno" jdbcType="VARCHAR" property="unitno" />
+    <result column="filever" jdbcType="VARCHAR" property="filever" />
+    <result column="birthdate" jdbcType="VARCHAR" property="birthdate" />
+    <result column="cardno" jdbcType="VARCHAR" property="cardno" />
+    <result column="cardtype" jdbcType="VARCHAR" property="cardtype" />
+    <result column="transdate" jdbcType="VARCHAR" property="transdate" />
+    <result column="transtype" jdbcType="VARCHAR" property="transtype" />
+    <result column="totalnum" jdbcType="INTEGER" property="totalnum" />
+    <result column="totalsum" jdbcType="INTEGER" property="totalsum" />
+    <result column="industrycode" jdbcType="VARCHAR" property="industrycode" />
+    <result column="unitid" jdbcType="VARCHAR" property="unitid" />
+    <result column="shopno" jdbcType="VARCHAR" property="shopno" />
+    <result column="kktype" jdbcType="VARCHAR" property="kktype" />
+    <result column="unitcode" jdbcType="VARCHAR" property="unitcode" />
+    <result column="mobileno" jdbcType="VARCHAR" property="mobileno" />
+    <result column="productcompany" jdbcType="VARCHAR" property="productcompany" />
+    <result column="productmodel" jdbcType="VARCHAR" property="productmodel" />
+    <result column="rsvd" jdbcType="VARCHAR" property="rsvd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tjtsmcardtxnjrltb_id, fileid, fileno, unitno, filever, birthdate, cardno, cardtype, 
+    transdate, transtype, totalnum, totalsum, industrycode, unitid, shopno, kktype, unitcode, 
+    mobileno, productcompany, productmodel, rsvd
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tjtsmcardtxnjrltb
+    where tjtsmcardtxnjrltb_id = #{tjtsmcardtxnjrltbId,jdbcType=BIGINT}
+  </select>
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    SELECT fileid, birthdate, sum(totalnum) as totalnum, SUM(totalsum) as totalsum FROM tjtsmcardtxnjrltb GROUP BY fileid;
+  </select>
+  
+  <select id="queryByFileIdGroup" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT fileid, birthdate, sum(totalnum) as totalnum, SUM(totalsum) as totalsum FROM tjtsmcardtxnjrltb where fileId = #{fileId}
+  </select>
+  
+  <select id="queryByFileIds">
+  		SELECT fileid, birthdate, sum(totalnum) as totalnum, SUM(totalsum) from tjtsmcardtxnjrltb
+  		where 
+  		<foreach item="item" index="index" collection="list" open="(" separator=" or " close=")">
+	        fileId = #{item}
+	   </foreach>
+	   group by fileId
+  </select>
+  
+  <select id="queryExistFileIds" resultType="java.lang.String">
+  	select DISTINCT fileid from tjtsmcardtxnjrltb;
+  </select>
+  
+  <select id="countOpenCardNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(DISTINCT cardno) from biwhitecardinfotb where productmodel = #{machineType,jdbcType=VARCHAR};
+  </select>
+  
+  <select id="countIndustryNo" resultType="java.lang.Integer">
+    select count(DISTINCT unitid) from tjtsmcardtxnjrltb where productmodel = #{0} and industrycode = #{1} and transtype = 1;
+  </select>
+  
+  <select id="getDeviceDetail" resultType="com.yingjun.ssm.entity.WhiteListSummary">
+	   SELECT
+			smy.transtype,
+			smy.industrycode,
+			smy.unitid,
+			smy.shopno,
+			smy.totalnum,
+			smy.totalsum,
+			IFNULL(sp.shopname, mac.unitname) AS unitName
+		FROM
+			(
+				SELECT
+					transtype,
+					industrycode,
+					unitid,
+					shopno,
+					SUM(totalnum) AS totalnum,
+					SUM(totalsum) AS totalsum
+				FROM
+					tjtsmcardtxnjrltb
+				WHERE
+					productmodel = #{deviceType}
+				GROUP BY
+					unitid,
+					shopno,
+					transtype
+			) smy
+		LEFT JOIN dictshopcodetb sp ON smy.shopno = sp.shopno
+		LEFT JOIN dictbmacunitcodetb mac ON smy.unitid = mac.unitid
+		ORDER BY smy.transtype, smy.industrycode, unitid
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tjtsmcardtxnjrltb
+    where tjtsmcardtxnjrltb_id = #{tjtsmcardtxnjrltbId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yingjun.ssm.entity.Tjtsmcardtxnjrltb">
+    insert into tjtsmcardtxnjrltb (tjtsmcardtxnjrltb_id, fileid, fileno, 
+      unitno, filever, birthdate, 
+      cardno, cardtype, transdate, 
+      transtype, totalnum, totalsum, 
+      industrycode, unitid, shopno, 
+      kktype, unitcode, mobileno, 
+      productcompany, productmodel, rsvd
+      )
+    values (#{tjtsmcardtxnjrltbId,jdbcType=BIGINT}, #{fileid,jdbcType=VARCHAR}, #{fileno,jdbcType=VARCHAR}, 
+      #{unitno,jdbcType=VARCHAR}, #{filever,jdbcType=VARCHAR}, #{birthdate,jdbcType=VARCHAR}, 
+      #{cardno,jdbcType=VARCHAR}, #{cardtype,jdbcType=VARCHAR}, #{transdate,jdbcType=VARCHAR}, 
+      #{transtype,jdbcType=VARCHAR}, #{totalnum,jdbcType=INTEGER}, #{totalsum,jdbcType=INTEGER}, 
+      #{industrycode,jdbcType=VARCHAR}, #{unitid,jdbcType=VARCHAR}, #{shopno,jdbcType=VARCHAR}, 
+      #{kktype,jdbcType=VARCHAR}, #{unitcode,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      #{productcompany,jdbcType=VARCHAR}, #{productmodel,jdbcType=VARCHAR}, #{rsvd,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="batchInsert" parameterType="java.util.List">
+       insert into tjtsmcardtxnjrltb (tjtsmcardtxnjrltb_id, fileid, fileno, 
+      unitno, filever, birthdate, 
+      cardno, cardtype, transdate, 
+      transtype, totalnum, totalsum, 
+      industrycode, unitid, shopno, 
+      kktype, unitcode, mobileno, 
+      productcompany, productmodel, rsvd
+      ) values
+       <foreach collection="list" item="item" index="index" separator=",">
+           (#{item.tjtsmcardtxnjrltbId,jdbcType=BIGINT}, #{item.fileid,jdbcType=VARCHAR}, #{item.fileno,jdbcType=VARCHAR}, 
+	      #{item.unitno,jdbcType=VARCHAR}, #{item.filever,jdbcType=VARCHAR}, #{item.birthdate,jdbcType=VARCHAR}, 
+	      #{item.cardno,jdbcType=VARCHAR}, #{item.cardtype,jdbcType=VARCHAR}, #{item.transdate,jdbcType=VARCHAR}, 
+	      #{item.transtype,jdbcType=VARCHAR}, #{item.totalnum,jdbcType=INTEGER}, #{item.totalsum,jdbcType=INTEGER}, 
+	      #{item.industrycode,jdbcType=VARCHAR}, #{item.unitid,jdbcType=VARCHAR}, #{item.shopno,jdbcType=VARCHAR}, 
+	      #{item.kktype,jdbcType=VARCHAR}, #{item.unitcode,jdbcType=VARCHAR}, #{item.mobileno,jdbcType=VARCHAR}, 
+	      #{item.productcompany,jdbcType=VARCHAR}, #{item.productmodel,jdbcType=VARCHAR}, #{item.rsvd,jdbcType=VARCHAR}
+	      )
+       </foreach>
+	</insert>
+  
+  
+  <insert id="insertSelective" parameterType="com.yingjun.ssm.entity.Tjtsmcardtxnjrltb">
+    insert into tjtsmcardtxnjrltb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tjtsmcardtxnjrltbId != null">
+        tjtsmcardtxnjrltb_id,
+      </if>
+      <if test="fileid != null">
+        fileid,
+      </if>
+      <if test="fileno != null">
+        fileno,
+      </if>
+      <if test="unitno != null">
+        unitno,
+      </if>
+      <if test="filever != null">
+        filever,
+      </if>
+      <if test="birthdate != null">
+        birthdate,
+      </if>
+      <if test="cardno != null">
+        cardno,
+      </if>
+      <if test="cardtype != null">
+        cardtype,
+      </if>
+      <if test="transdate != null">
+        transdate,
+      </if>
+      <if test="transtype != null">
+        transtype,
+      </if>
+      <if test="totalnum != null">
+        totalnum,
+      </if>
+      <if test="totalsum != null">
+        totalsum,
+      </if>
+      <if test="industrycode != null">
+        industrycode,
+      </if>
+      <if test="unitid != null">
+        unitid,
+      </if>
+      <if test="shopno != null">
+        shopno,
+      </if>
+      <if test="kktype != null">
+        kktype,
+      </if>
+      <if test="unitcode != null">
+        unitcode,
+      </if>
+      <if test="mobileno != null">
+        mobileno,
+      </if>
+      <if test="productcompany != null">
+        productcompany,
+      </if>
+      <if test="productmodel != null">
+        productmodel,
+      </if>
+      <if test="rsvd != null">
+        rsvd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tjtsmcardtxnjrltbId != null">
+        #{tjtsmcardtxnjrltbId,jdbcType=BIGINT},
+      </if>
+      <if test="fileid != null">
+        #{fileid,jdbcType=VARCHAR},
+      </if>
+      <if test="fileno != null">
+        #{fileno,jdbcType=VARCHAR},
+      </if>
+      <if test="unitno != null">
+        #{unitno,jdbcType=VARCHAR},
+      </if>
+      <if test="filever != null">
+        #{filever,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null">
+        #{birthdate,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null">
+        #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtype != null">
+        #{cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="transdate != null">
+        #{transdate,jdbcType=VARCHAR},
+      </if>
+      <if test="transtype != null">
+        #{transtype,jdbcType=VARCHAR},
+      </if>
+      <if test="totalnum != null">
+        #{totalnum,jdbcType=INTEGER},
+      </if>
+      <if test="totalsum != null">
+        #{totalsum,jdbcType=INTEGER},
+      </if>
+      <if test="industrycode != null">
+        #{industrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitid != null">
+        #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="shopno != null">
+        #{shopno,jdbcType=VARCHAR},
+      </if>
+      <if test="kktype != null">
+        #{kktype,jdbcType=VARCHAR},
+      </if>
+      <if test="unitcode != null">
+        #{unitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null">
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="productcompany != null">
+        #{productcompany,jdbcType=VARCHAR},
+      </if>
+      <if test="productmodel != null">
+        #{productmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yingjun.ssm.entity.Tjtsmcardtxnjrltb">
+    update tjtsmcardtxnjrltb
+    <set>
+      <if test="fileid != null">
+        fileid = #{fileid,jdbcType=VARCHAR},
+      </if>
+      <if test="fileno != null">
+        fileno = #{fileno,jdbcType=VARCHAR},
+      </if>
+      <if test="unitno != null">
+        unitno = #{unitno,jdbcType=VARCHAR},
+      </if>
+      <if test="filever != null">
+        filever = #{filever,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null">
+        birthdate = #{birthdate,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null">
+        cardno = #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtype != null">
+        cardtype = #{cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="transdate != null">
+        transdate = #{transdate,jdbcType=VARCHAR},
+      </if>
+      <if test="transtype != null">
+        transtype = #{transtype,jdbcType=VARCHAR},
+      </if>
+      <if test="totalnum != null">
+        totalnum = #{totalnum,jdbcType=INTEGER},
+      </if>
+      <if test="totalsum != null">
+        totalsum = #{totalsum,jdbcType=INTEGER},
+      </if>
+      <if test="industrycode != null">
+        industrycode = #{industrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitid != null">
+        unitid = #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="shopno != null">
+        shopno = #{shopno,jdbcType=VARCHAR},
+      </if>
+      <if test="kktype != null">
+        kktype = #{kktype,jdbcType=VARCHAR},
+      </if>
+      <if test="unitcode != null">
+        unitcode = #{unitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null">
+        mobileno = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="productcompany != null">
+        productcompany = #{productcompany,jdbcType=VARCHAR},
+      </if>
+      <if test="productmodel != null">
+        productmodel = #{productmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        rsvd = #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tjtsmcardtxnjrltb_id = #{tjtsmcardtxnjrltbId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yingjun.ssm.entity.Tjtsmcardtxnjrltb">
+    update tjtsmcardtxnjrltb
+    set fileid = #{fileid,jdbcType=VARCHAR},
+      fileno = #{fileno,jdbcType=VARCHAR},
+      unitno = #{unitno,jdbcType=VARCHAR},
+      filever = #{filever,jdbcType=VARCHAR},
+      birthdate = #{birthdate,jdbcType=VARCHAR},
+      cardno = #{cardno,jdbcType=VARCHAR},
+      cardtype = #{cardtype,jdbcType=VARCHAR},
+      transdate = #{transdate,jdbcType=VARCHAR},
+      transtype = #{transtype,jdbcType=VARCHAR},
+      totalnum = #{totalnum,jdbcType=INTEGER},
+      totalsum = #{totalsum,jdbcType=INTEGER},
+      industrycode = #{industrycode,jdbcType=VARCHAR},
+      unitid = #{unitid,jdbcType=VARCHAR},
+      shopno = #{shopno,jdbcType=VARCHAR},
+      kktype = #{kktype,jdbcType=VARCHAR},
+      unitcode = #{unitcode,jdbcType=VARCHAR},
+      mobileno = #{mobileno,jdbcType=VARCHAR},
+      productcompany = #{productcompany,jdbcType=VARCHAR},
+      productmodel = #{productmodel,jdbcType=VARCHAR},
+      rsvd = #{rsvd,jdbcType=VARCHAR}
+    where tjtsmcardtxnjrltb_id = #{tjtsmcardtxnjrltbId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByCardNo" parameterType="com.yingjun.ssm.entity.Tjtsmcardtxnjrltb">
+  	update tjtsmcardtxnjrltb set  
+  	  mobileno = #{mobileno,jdbcType=VARCHAR},
+      productcompany = #{productcompany,jdbcType=VARCHAR},
+      productmodel = #{productmodel,jdbcType=VARCHAR}
+    where cardno = #{cardno,jdbcType=VARCHAR}
+  </update>
+</mapper>

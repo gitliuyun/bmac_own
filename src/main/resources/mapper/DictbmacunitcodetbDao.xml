@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.DictbmacunitcodetbDao">
+  <resultMap id="BaseResultMap" type="com.yingjun.ssm.entity.Dictbmacunitcodetb">
+    <id column="dictbmacunitcodetb_id" jdbcType="BIGINT" property="dictbmacunitcodetbId" />
+    <result column="unitid" jdbcType="VARCHAR" property="unitid" />
+    <result column="unitname" jdbcType="VARCHAR" property="unitname" />
+    <result column="rsvd" jdbcType="VARCHAR" property="rsvd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dictbmacunitcodetb_id, unitid, unitname, rsvd
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictbmacunitcodetb
+    where dictbmacunitcodetb_id = #{dictbmacunitcodetbId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="queryExistUnitId" resultType="java.lang.String">
+  	SELECT unitid FROM dictbmacunitcodetb;
+  </select>
+  
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictbmacunitcodetb
+    where 1=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dictbmacunitcodetb
+    where dictbmacunitcodetb_id = #{dictbmacunitcodetbId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yingjun.ssm.entity.Dictbmacunitcodetb">
+    insert into dictbmacunitcodetb (dictbmacunitcodetb_id, unitid, unitname, 
+      rsvd)
+    values (#{dictbmacunitcodetbId,jdbcType=BIGINT}, #{unitid,jdbcType=VARCHAR}, #{unitname,jdbcType=VARCHAR}, 
+      #{rsvd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yingjun.ssm.entity.Dictbmacunitcodetb">
+    insert into dictbmacunitcodetb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictbmacunitcodetbId != null">
+        dictbmacunitcodetb_id,
+      </if>
+      <if test="unitid != null">
+        unitid,
+      </if>
+      <if test="unitname != null">
+        unitname,
+      </if>
+      <if test="rsvd != null">
+        rsvd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictbmacunitcodetbId != null">
+        #{dictbmacunitcodetbId,jdbcType=BIGINT},
+      </if>
+      <if test="unitid != null">
+        #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="unitname != null">
+        #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yingjun.ssm.entity.Dictbmacunitcodetb">
+    update dictbmacunitcodetb
+    <set>
+      <if test="unitid != null">
+        unitid = #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="unitname != null">
+        unitname = #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        rsvd = #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dictbmacunitcodetb_id = #{dictbmacunitcodetbId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yingjun.ssm.entity.Dictbmacunitcodetb">
+    update dictbmacunitcodetb
+    set unitid = #{unitid,jdbcType=VARCHAR},
+      unitname = #{unitname,jdbcType=VARCHAR},
+      rsvd = #{rsvd,jdbcType=VARCHAR}
+    where dictbmacunitcodetb_id = #{dictbmacunitcodetbId,jdbcType=BIGINT}
+  </update>
+</mapper>

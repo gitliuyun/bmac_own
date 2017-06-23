@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.MngoprlogtbDao">
+  <resultMap id="BaseResultMap" type="com.yingjun.ssm.entity.Mngoprlogtb">
+    <id column="mngoprlogtb_id" jdbcType="BIGINT" property="mngoprlogtbId" />
+    <result column="logseq" jdbcType="INTEGER" property="logseq" />
+    <result column="logtest" jdbcType="VARCHAR" property="logtest" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="sessionid" jdbcType="VARCHAR" property="sessionid" />
+    <result column="funcid" jdbcType="VARCHAR" property="funcid" />
+    <result column="funcname" jdbcType="VARCHAR" property="funcname" />
+    <result column="opertype" jdbcType="VARCHAR" property="opertype" />
+    <result column="begtime" jdbcType="VARCHAR" property="begtime" />
+    <result column="endtime" jdbcType="VARCHAR" property="endtime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="rsvd" jdbcType="VARCHAR" property="rsvd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    mngoprlogtb_id, logseq, logtest, userid, sessionid, funcid, funcname, opertype, begtime, 
+    endtime, status, rsvd
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mngoprlogtb
+    where mngoprlogtb_id = #{mngoprlogtbId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from mngoprlogtb
+    where mngoprlogtb_id = #{mngoprlogtbId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yingjun.ssm.entity.Mngoprlogtb">
+    insert into mngoprlogtb (mngoprlogtb_id, logseq, logtest, 
+      userid, sessionid, funcid, 
+      funcname, opertype, begtime, 
+      endtime, status, rsvd
+      )
+    values (#{mngoprlogtbId,jdbcType=BIGINT}, #{logseq,jdbcType=INTEGER}, #{logtest,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=VARCHAR}, #{sessionid,jdbcType=VARCHAR}, #{funcid,jdbcType=VARCHAR}, 
+      #{funcname,jdbcType=VARCHAR}, #{opertype,jdbcType=VARCHAR}, #{begtime,jdbcType=VARCHAR}, 
+      #{endtime,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{rsvd,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yingjun.ssm.entity.Mngoprlogtb">
+    insert into mngoprlogtb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mngoprlogtbId != null">
+        mngoprlogtb_id,
+      </if>
+      <if test="logseq != null">
+        logseq,
+      </if>
+      <if test="logtest != null">
+        logtest,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="sessionid != null">
+        sessionid,
+      </if>
+      <if test="funcid != null">
+        funcid,
+      </if>
+      <if test="funcname != null">
+        funcname,
+      </if>
+      <if test="opertype != null">
+        opertype,
+      </if>
+      <if test="begtime != null">
+        begtime,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="rsvd != null">
+        rsvd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mngoprlogtbId != null">
+        #{mngoprlogtbId,jdbcType=BIGINT},
+      </if>
+      <if test="logseq != null">
+        #{logseq,jdbcType=INTEGER},
+      </if>
+      <if test="logtest != null">
+        #{logtest,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionid != null">
+        #{sessionid,jdbcType=VARCHAR},
+      </if>
+      <if test="funcid != null">
+        #{funcid,jdbcType=VARCHAR},
+      </if>
+      <if test="funcname != null">
+        #{funcname,jdbcType=VARCHAR},
+      </if>
+      <if test="opertype != null">
+        #{opertype,jdbcType=VARCHAR},
+      </if>
+      <if test="begtime != null">
+        #{begtime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yingjun.ssm.entity.Mngoprlogtb">
+    update mngoprlogtb
+    <set>
+      <if test="logseq != null">
+        logseq = #{logseq,jdbcType=INTEGER},
+      </if>
+      <if test="logtest != null">
+        logtest = #{logtest,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionid != null">
+        sessionid = #{sessionid,jdbcType=VARCHAR},
+      </if>
+      <if test="funcid != null">
+        funcid = #{funcid,jdbcType=VARCHAR},
+      </if>
+      <if test="funcname != null">
+        funcname = #{funcname,jdbcType=VARCHAR},
+      </if>
+      <if test="opertype != null">
+        opertype = #{opertype,jdbcType=VARCHAR},
+      </if>
+      <if test="begtime != null">
+        begtime = #{begtime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="rsvd != null">
+        rsvd = #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mngoprlogtb_id = #{mngoprlogtbId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yingjun.ssm.entity.Mngoprlogtb">
+    update mngoprlogtb
+    set logseq = #{logseq,jdbcType=INTEGER},
+      logtest = #{logtest,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      sessionid = #{sessionid,jdbcType=VARCHAR},
+      funcid = #{funcid,jdbcType=VARCHAR},
+      funcname = #{funcname,jdbcType=VARCHAR},
+      opertype = #{opertype,jdbcType=VARCHAR},
+      begtime = #{begtime,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      rsvd = #{rsvd,jdbcType=VARCHAR}
+    where mngoprlogtb_id = #{mngoprlogtbId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.MachineinfoDao">
+  <resultMap id="BaseResultMap" type="com.yingjun.ssm.entity.Machineinfo">
+    <id column="machineInfoId" jdbcType="BIGINT" property="machineinfoid" />
+    <result column="deviceType" jdbcType="VARCHAR" property="devicetype" />
+    <result column="deviceCompany" jdbcType="VARCHAR" property="devicecompany" />
+    <result column="recordTime" jdbcType="TIMESTAMP" property="recordtime" />
+    <result column="cardNumber" jdbcType="INTEGER" property="cardnumber" />
+    <result column="busNumber" jdbcType="INTEGER" property="busnumber" />
+    <result column="subwayNumber" jdbcType="INTEGER" property="subwaynumber" />
+    <result column="usedInOtherIndustry" jdbcType="VARCHAR" property="usedinotherindustry" />
+    <result column="hasComplain" jdbcType="VARCHAR" property="hascomplain" />
+    <result column="isFormal" jdbcType="VARCHAR" property="isformal" />
+    <result column="resv" jdbcType="VARCHAR" property="resv" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    machineInfoId, deviceType, deviceCompany, recordTime, cardNumber, busNumber, subwayNumber, 
+    usedInOtherIndustry, hasComplain, isFormal, resv
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from machineinfo
+    where machineInfoId = #{machineinfoid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="countCardNumberOfMachine" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from machineinfo ORDER BY cardNumber desc LIMIT 10
+  </select>
+  
+  <select id="countTotalCardNumber" resultType="java.lang.Integer">
+    select sum(cardNumber) from machineinfo;
+  </select>
+  
+  <select id="queryAllDeviceType" resultType="java.lang.String">
+    select deviceType from machineinfo
+  </select>
+  
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from machineinfo
+    where 1=1
+  </select>
+  
+  <select id="queryByMachineType"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from machineinfo
+    where deviceType = #{deviceType} limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from machineinfo
+    where machineInfoId = #{machineinfoid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yingjun.ssm.entity.Machineinfo">
+    insert into machineinfo (machineInfoId, deviceType, deviceCompany, 
+      recordTime, cardNumber, busNumber, 
+      subwayNumber, usedInOtherIndustry, hasComplain, 
+      isFormal, resv)
+    values (#{machineinfoid,jdbcType=BIGINT}, #{devicetype,jdbcType=VARCHAR}, #{devicecompany,jdbcType=VARCHAR}, 
+      #{recordtime,jdbcType=TIMESTAMP}, #{cardnumber,jdbcType=INTEGER}, #{busnumber,jdbcType=INTEGER}, 
+      #{subwaynumber,jdbcType=INTEGER}, #{usedinotherindustry,jdbcType=VARCHAR}, #{hascomplain,jdbcType=VARCHAR}, 
+      #{isformal,jdbcType=VARCHAR}, #{resv,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yingjun.ssm.entity.Machineinfo">
+    insert into machineinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="machineinfoid != null">
+        machineInfoId,
+      </if>
+      <if test="devicetype != null">
+        deviceType,
+      </if>
+      <if test="devicecompany != null">
+        deviceCompany,
+      </if>
+      <if test="recordtime != null">
+        recordTime,
+      </if>
+      <if test="cardnumber != null">
+        cardNumber,
+      </if>
+      <if test="busnumber != null">
+        busNumber,
+      </if>
+      <if test="subwaynumber != null">
+        subwayNumber,
+      </if>
+      <if test="usedinotherindustry != null">
+        usedInOtherIndustry,
+      </if>
+      <if test="hascomplain != null">
+        hasComplain,
+      </if>
+      <if test="isformal != null">
+        isFormal,
+      </if>
+      <if test="resv != null">
+        resv,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="machineinfoid != null">
+        #{machineinfoid,jdbcType=BIGINT},
+      </if>
+      <if test="devicetype != null">
+        #{devicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="devicecompany != null">
+        #{devicecompany,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardnumber != null">
+        #{cardnumber,jdbcType=INTEGER},
+      </if>
+      <if test="busnumber != null">
+        #{busnumber,jdbcType=INTEGER},
+      </if>
+      <if test="subwaynumber != null">
+        #{subwaynumber,jdbcType=INTEGER},
+      </if>
+      <if test="usedinotherindustry != null">
+        #{usedinotherindustry,jdbcType=VARCHAR},
+      </if>
+      <if test="hascomplain != null">
+        #{hascomplain,jdbcType=VARCHAR},
+      </if>
+      <if test="isformal != null">
+        #{isformal,jdbcType=VARCHAR},
+      </if>
+      <if test="resv != null">
+        #{resv,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yingjun.ssm.entity.Machineinfo">
+    update machineinfo
+    <set>
+      <if test="devicetype != null">
+        deviceType = #{devicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="devicecompany != null">
+        deviceCompany = #{devicecompany,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        recordTime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardnumber != null">
+        cardNumber = #{cardnumber,jdbcType=INTEGER},
+      </if>
+      <if test="busnumber != null">
+        busNumber = #{busnumber,jdbcType=INTEGER},
+      </if>
+      <if test="subwaynumber != null">
+        subwayNumber = #{subwaynumber,jdbcType=INTEGER},
+      </if>
+      <if test="usedinotherindustry != null">
+        usedInOtherIndustry = #{usedinotherindustry,jdbcType=VARCHAR},
+      </if>
+      <if test="hascomplain != null">
+        hasComplain = #{hascomplain,jdbcType=VARCHAR},
+      </if>
+      <if test="isformal != null">
+        isFormal = #{isformal,jdbcType=VARCHAR},
+      </if>
+      <if test="resv != null">
+        resv = #{resv,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where machineInfoId = #{machineinfoid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yingjun.ssm.entity.Machineinfo">
+    update machineinfo
+    set deviceType = #{devicetype,jdbcType=VARCHAR},
+      deviceCompany = #{devicecompany,jdbcType=VARCHAR},
+      recordTime = #{recordtime,jdbcType=TIMESTAMP},
+      cardNumber = #{cardnumber,jdbcType=INTEGER},
+      busNumber = #{busnumber,jdbcType=INTEGER},
+      subwayNumber = #{subwaynumber,jdbcType=INTEGER},
+      usedInOtherIndustry = #{usedinotherindustry,jdbcType=VARCHAR},
+      hasComplain = #{hascomplain,jdbcType=VARCHAR},
+      isFormal = #{isformal,jdbcType=VARCHAR},
+      resv = #{resv,jdbcType=VARCHAR}
+    where machineInfoId = #{machineinfoid,jdbcType=BIGINT}
+  </update>
+</mapper>

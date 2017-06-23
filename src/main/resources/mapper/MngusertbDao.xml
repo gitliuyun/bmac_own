@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.MngusertbDao">
+  <resultMap id="BaseResultMap" type="com.yingjun.ssm.entity.Mngusertb">
+    <id column="mngusertb_id" jdbcType="BIGINT" property="mngusertbId" />
+    <result column="systemid" jdbcType="VARCHAR" property="systemid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="garde" jdbcType="INTEGER" property="garde" />
+    <result column="stat" jdbcType="INTEGER" property="stat" />
+    <result column="rsvd" jdbcType="VARCHAR" property="rsvd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    mngusertb_id, systemid, userid, username, password, garde, stat, rsvd
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mngusertb
+    where mngusertb_id = #{mngusertbId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="queryByUserName" resultType="java.lang.Integer">
+  	select count(0) from mngusertb where username= #{0} and password=#{1}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from mngusertb
+    where mngusertb_id = #{mngusertbId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yingjun.ssm.entity.Mngusertb">
+    insert into mngusertb (mngusertb_id, systemid, userid, 
+      username, password, garde, 
+      stat, rsvd)
+    values (#{mngusertbId,jdbcType=BIGINT}, #{systemid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{garde,jdbcType=INTEGER}, 
+      #{stat,jdbcType=INTEGER}, #{rsvd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yingjun.ssm.entity.Mngusertb">
+    insert into mngusertb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mngusertbId != null">
+        mngusertb_id,
+      </if>
+      <if test="systemid != null">
+        systemid,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="garde != null">
+        garde,
+      </if>
+      <if test="stat != null">
+        stat,
+      </if>
+      <if test="rsvd != null">
+        rsvd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mngusertbId != null">
+        #{mngusertbId,jdbcType=BIGINT},
+      </if>
+      <if test="systemid != null">
+        #{systemid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="garde != null">
+        #{garde,jdbcType=INTEGER},
+      </if>
+      <if test="stat != null">
+        #{stat,jdbcType=INTEGER},
+      </if>
+      <if test="rsvd != null">
+        #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yingjun.ssm.entity.Mngusertb">
+    update mngusertb
+    <set>
+      <if test="systemid != null">
+        systemid = #{systemid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="garde != null">
+        garde = #{garde,jdbcType=INTEGER},
+      </if>
+      <if test="stat != null">
+        stat = #{stat,jdbcType=INTEGER},
+      </if>
+      <if test="rsvd != null">
+        rsvd = #{rsvd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mngusertb_id = #{mngusertbId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yingjun.ssm.entity.Mngusertb">
+    update mngusertb
+    set systemid = #{systemid,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      garde = #{garde,jdbcType=INTEGER},
+      stat = #{stat,jdbcType=INTEGER},
+      rsvd = #{rsvd,jdbcType=VARCHAR}
+    where mngusertb_id = #{mngusertbId,jdbcType=BIGINT}
+  </update>
+</mapper>
